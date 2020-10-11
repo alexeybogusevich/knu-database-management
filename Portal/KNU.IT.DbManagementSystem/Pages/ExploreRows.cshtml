@@ -1,0 +1,23 @@
+﻿@page
+@model KNU.IT.DbManagementSystem.Pages.ExploreRowsModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Explore Rows";
+}
+
+<div>
+    <h2>@Model.Table.Name</h2>
+    <table class="table">
+        <tbody>
+            @foreach (var row in Model.Rows)
+            {
+                <tr>
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
+    <form method="post">
+        <input type="submit" asp-page-handler="CreateNewRow" name="CreateNewRow" value="Create New" />
+    </form>
+</div>

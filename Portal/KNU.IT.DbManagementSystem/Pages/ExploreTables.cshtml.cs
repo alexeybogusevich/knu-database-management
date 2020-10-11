@@ -34,7 +34,7 @@ namespace KNU.IT.DbManagementSystem.Pages
 
         public ActionResult OnPostCreateNewTable()
         {
-            return RedirectToPage("./CreateNewTable");
+            return RedirectToPage("./CreateTable");
         }
     }
 }

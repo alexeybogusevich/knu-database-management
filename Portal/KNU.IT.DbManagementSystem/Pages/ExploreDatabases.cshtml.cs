@@ -26,5 +26,10 @@ namespace KNU.IT.DbManagementSystem.Pages
             Databases = await databaseService.GetAllAsync();
             return Page();
         }
+
+        public ActionResult OnPostCreateNewDatabase()
+        {
+            return RedirectToPage("./CreateDatabase");
+        }
     }
 }

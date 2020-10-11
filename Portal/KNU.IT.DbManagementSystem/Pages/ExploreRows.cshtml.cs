@@ -10,12 +10,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace KNU.IT.DbManagementSystem.Pages
 {
-    public class GetRowsModel : PageModel
+    public class ExploreRowsModel : PageModel
     {
         private readonly IRowService rowService;
         private readonly ITableService tableService;
 
-        public GetRowsModel(ITableService tableService, IRowService rowService)
+        public ExploreRowsModel(ITableService tableService, IRowService rowService)
         {
             this.tableService = tableService;
             this.rowService = rowService;
@@ -31,6 +31,11 @@ namespace KNU.IT.DbManagementSystem.Pages
             Table = await tableService.GetAsync(tableId);
             Rows = await rowService.GetAllByTableAsync(tableId);
             return Page();
+        }
+
+        public ActionResult OnPostCreateNewRow()
+        {
+            return RedirectToPage("./CreateRow");
         }
     }
 }
