@@ -1,0 +1,22 @@
+﻿@page
+@model KNU.IT.DbManagementSystem.Pages.ExploreDatabasesModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Explore Databases";
+}
+
+<table class="table">
+    <tbody>
+        @foreach (var database in Model.Databases)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => database.Name)
+                </td>
+                <td>
+                    <a asp-page="/ExploreTables" asp-route-databaseId="@database.Id">Explore Tables</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

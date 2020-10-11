@@ -1,0 +1,31 @@
+﻿@page
+@model KNU.IT.DbManagementSystem.Pages.ExploreTablesModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Explore Tables";
+}
+
+<div>
+    <h2>@Model.Database.Name</h2>
+    <table class="table">
+        <tbody>
+            @foreach (var table in Model.Tables)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => table.Name)
+                    </td>
+                    <td>
+                        <a asp-page="/GetRows" asp-route-tableId="@table.Id">Get Rows</a>
+                    </td>
+                    <td>
+                        <a asp-page="/EditTable" asp-route-tableId="@table.Id">Edit Table</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <form method="post">
+        <input type="submit" asp-page-handler="CreateNewTable" name="CreateNewTable" value="Create New" />
+    </form>
+</div>

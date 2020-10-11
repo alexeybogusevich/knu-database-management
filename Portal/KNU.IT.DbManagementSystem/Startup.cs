@@ -2,10 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KNU.IT.DbManagementSystem.Services.DatabaseService;
+using KNU.IT.DbManagementSystem.Services.RowService;
+using KNU.IT.DbManagementSystem.Services.TableService;
 using KNU.IT.DbManager.Connections;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,6 +30,23 @@ namespace KNU.IT.DbManagementSystem
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AzureSqlDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("sqldb-knu-it-dev-westeu-001ConnectionString")));
+
+            services.AddRazorPages();
+
+            services.AddMvc().AddViewLocalization()
+                .AddDataAnnotationsLocalization()
+                .AddViewLocalization();
+
+            services.Configure<RouteOptions>(options =>
+            {
+                options.LowercaseUrls = true;
+                options.LowercaseQueryStrings = true;
+                options.AppendTrailingSlash = true;
+            });
+
+            services.AddScoped<IDatabaseService, DatabaseService>();
+            services.AddScoped<ITableService, TableService>();
+            services.AddScoped<IRowService, RowService>();
 
             services.AddRazorPages();
         }
