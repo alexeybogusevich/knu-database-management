@@ -12,14 +12,17 @@
         <tbody>
             @foreach (var database in Model.Databases)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => database.Name)
-                    </td>
-                    <td>
-                        <a asp-page="/ExploreTables" asp-route-databaseId="@database.Id">Open</a>
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => database.Name)
+                </td>
+                <td>
+                    <a asp-page="/ExploreTables" asp-route-databaseId="@database.Id">Open</a>
+                </td>
+                <td>
+                    <a asp-page="/DeleteDatabase" asp-route-databaseId="@database.Id">Delete</a>
+                </td>
+            </tr>
             }
         </tbody>
     </table>

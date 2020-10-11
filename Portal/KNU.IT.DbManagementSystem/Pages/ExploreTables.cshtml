@@ -24,11 +24,17 @@
                     <td>
                         <a asp-page="/EditTable" asp-route-tableId="@table.Id">Edit</a>
                     </td>
+                    <td>
+                        <a asp-page="/DeleteTable" asp-route-databaseId="@Model.Database.Id" asp-route-tableId="@table.Id">Delete</a>
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
     <form method="post">
         <input type="submit" asp-page-handler="CreateNewTable" asp-route-databaseId="@Model.Database.Id" name="CreateNewTable" value="Create" />
+    </form>
+    <form method="post">
+        <input type="submit" asp-page-handler="ReturnToDatabases" name="ReturnToDatabases" value="Back to Databases" />
     </form>
 </div>

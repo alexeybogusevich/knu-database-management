@@ -34,6 +34,9 @@
                                 @Html.DisplayFor(modelItem => column.Value)
                             </td>
                         }
+                        <td>
+                            <a asp-page="/DeleteRow" asp-route-tableId="@Model.Table.Id" asp-route-rowId="@row.Id">Delete</a>
+                        </td>
                     </tr>
                 }
             </tbody>
@@ -41,5 +44,9 @@
     }
     <form method="post">
         <input type="submit" asp-page-handler="CreateNewRow" asp-route-tableId="@Model.Table.Id" name="CreateNewRow" value="Create" />
+    </form>
+
+    <form method="post">
+        <input type="submit" asp-page-handler="ReturnToTables" asp-route-databaseId="@Model.Table.DatabaseId" name="ReturnToTables" value="Back to Tables" />
     </form>
 </div>

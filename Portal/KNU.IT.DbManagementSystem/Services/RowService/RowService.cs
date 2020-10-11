@@ -36,6 +36,7 @@ namespace KNU.IT.DbManagementSystem.Services.RowService
                 .Where(r => r.TableId.Equals(tableId))
                 .Select(r => new RowViewModel
                 {
+                    Id = r.Id,
                     TableId = r.TableId,
                     Content = JsonConvert.DeserializeObject<Dictionary<string, string>>(r.Content)
                 })

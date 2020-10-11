@@ -37,5 +37,10 @@ namespace KNU.IT.DbManagementSystem.Pages
         {
             return RedirectToPage("./CreateTable", new {databaseId});
         }
+
+        public ActionResult OnPostReturnToDatabases()
+        {
+            return RedirectToPage("./ExploreDatabases");
+        }
     }
 }
