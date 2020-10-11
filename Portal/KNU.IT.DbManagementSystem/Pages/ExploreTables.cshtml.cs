@@ -23,6 +23,7 @@ namespace KNU.IT.DbManagementSystem.Pages
 
         [BindProperty]
         public Database Database { get; set; }
+        [BindProperty]
         public IEnumerable<Table> Tables { get; set; }
 
         public async Task<ActionResult> OnGetAsync(Guid databaseId)
@@ -32,9 +33,9 @@ namespace KNU.IT.DbManagementSystem.Pages
             return Page();
         }
 
-        public ActionResult OnPostCreateNewTable()
+        public ActionResult OnPostCreateNewTable(Guid databaseId)
         {
-            return RedirectToPage("./CreateTable");
+            return RedirectToPage("./CreateTable", new {databaseId});
         }
     }
 }

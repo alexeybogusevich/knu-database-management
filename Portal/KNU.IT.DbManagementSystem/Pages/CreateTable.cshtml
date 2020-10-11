@@ -4,3 +4,48 @@
 @{
     ViewData["Title"] = "Create Table";
 }
+
+<br />
+<h3>Create new Table</h3>
+<form method="post">
+    <div class="form-group">
+        @Html.LabelFor(model => model.Name)
+        @Html.EditorFor(model => model.Name)
+        @Html.ValidationMessageFor(model => model.Name)
+    </div>
+    <div id="temp">
+        @for (int i = 0; i < Model.Dictionary.Count(); i++)
+        {
+            <input type="text" name="dict[@i].Key" value="@i" />
+            <input type="text" name="dict[@i].Value" value="@Model.Dictionary[i.ToString()]" />
+            <br />
+        }
+    </div>
+    <br /><br />
+    <input type="button" value="Add a field" class="add" id="add" />
+    <input type="submit" value="Submit">
+</form>
+
+@section Scripts
+    {
+    <script>
+        $(function () {
+            var nextId = @Model.Dictionary.Count();
+
+            $('#add').on('click', function () {
+                var r = $(
+                    '<input type="text" name="dict[' + nextId.toString() + '].Key" value="Column_' + nextId.toString() + '" />\r\n<br />' +
+                    '<select id = "types" name = "dict[' + nextId.toString() + '].Value">' +
+                    '<option value="int">int</option >' +
+                    '<option value="char">Char</option>' +
+                    '<option value="string">String</option>' +
+                    '<option value="decimal">Decimal</option>' +
+                    '<option value="picture">Picture</option>' +
+                    '</select>');
+                $("#temp").append(r);
+
+                nextId++;
+            });
+        });
+    </script>
+}

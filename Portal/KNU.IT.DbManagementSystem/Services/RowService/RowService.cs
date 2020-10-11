@@ -1,6 +1,8 @@
-﻿using KNU.IT.DbManager.Connections;
+﻿using KNU.IT.DbManagementSystem.Models;
+using KNU.IT.DbManager.Connections;
 using KNU.IT.DbManager.Models;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,9 +24,22 @@ namespace KNU.IT.DbManagementSystem.Services.RowService
             return await context.Rows.FirstOrDefaultAsync(r => r.Id.Equals(id));
         }
 
-        public async Task<List<Row>> GetAllByTableAsync(Guid tableId)
+        public async Task<RowViewModel> GetViewModelAsync(Guid id)
         {
-            return await context.Rows.Where(r => r.TableId.Equals(tableId)).ToListAsync();
+            var dbRow = await GetAsync(id);
+            return new RowViewModel { TableId = dbRow.TableId, Content = JsonConvert.DeserializeObject<Dictionary<string, string>>(dbRow.Content) };
+        }
+
+        public async Task<List<RowViewModel>> GetAllViewModelsByTableAsync(Guid tableId)
+        {
+            return await context.Rows
+                .Where(r => r.TableId.Equals(tableId))
+                .Select(r => new RowViewModel
+                {
+                    TableId = r.TableId,
+                    Content = JsonConvert.DeserializeObject<Dictionary<string, string>>(r.Content)
+                })
+                .ToListAsync();
         }
 
         public async Task CreateAsync(Row row)

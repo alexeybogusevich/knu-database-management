@@ -37,6 +37,8 @@ namespace KNU.IT.DbManagementSystem
                 .AddDataAnnotationsLocalization()
                 .AddViewLocalization();
 
+            services.AddMemoryCache();
+
             services.Configure<RouteOptions>(options =>
             {
                 options.LowercaseUrls = true;

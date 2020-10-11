@@ -5,19 +5,41 @@
     ViewData["Title"] = "Explore Rows";
 }
 
+<br />
 <div>
-    <h2>@Model.Table.Name</h2>
-    <table class="table">
-        <tbody>
-            @foreach (var row in Model.Rows)
-            {
+    <h3>Table: @Model.Table.Name</h3>
+    <br>
+    <h3>Rows</h3>
+    @if (Model.Rows.Count != 0)
+    {
+        <table class="table">
+            <thead>
                 <tr>
-                    
+                    @foreach (var column in Model.Rows[0].Content)
+                    {
+                        <th>
+                            @column.Key
+                        </th>
+                    }
+                    <th></th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var row in Model.Rows)
+                {
+                    <tr>
+                        @foreach (var column in row.Content)
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => column.Value)
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
     <form method="post">
-        <input type="submit" asp-page-handler="CreateNewRow" name="CreateNewRow" value="Create New" />
+        <input type="submit" asp-page-handler="CreateNewRow" asp-route-tableId="@Model.Table.Id" name="CreateNewRow" value="Create" />
     </form>
 </div>
