@@ -1,6 +1,8 @@
-﻿using KNU.IT.DbManager.Connections;
+﻿using KNU.IT.DbManagementSystem.Models;
+using KNU.IT.DbManager.Connections;
 using KNU.IT.DbManager.Models;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +22,18 @@ namespace KNU.IT.DbManagementSystem.Services.TableService
         public async Task<Table> GetAsync(Guid id)
         {
             return await context.Tables.FirstOrDefaultAsync(t => t.Id.Equals(id));
+        }
+
+        public async Task<TableViewModel> GetViewModelAsync(Guid id)
+        {
+            var table = await context.Tables.FirstOrDefaultAsync(t => t.Id.Equals(id));
+            return new TableViewModel
+            {
+                Id = table.Id,
+                Name = table.Name,
+                DatabaseId = table.DatabaseId,
+                Schema = JsonConvert.DeserializeObject<Dictionary<string, string>>(table.Schema)
+            };
         }
 
         public async Task<List<Table>> GetAllByDatabaseAsync(Guid databaseId)

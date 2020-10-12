@@ -61,5 +61,33 @@ namespace KNU.IT.DbManagementSystem.Services.RowService
             context.Rows.Remove(row);
             await context.SaveChangesAsync();
         }
+
+        public async Task<List<RowViewModel>> SearchByKeywordAsync(Guid tableId, string keyword, string column)
+        {
+            var rows = await context.Rows
+                .Where(r => r.TableId.Equals(tableId))
+                .ToListAsync();
+
+            var comparer = StringComparison.OrdinalIgnoreCase;
+
+            var tableSchema = (await context.Tables
+                .FirstOrDefaultAsync(t => t.Id.Equals(tableId)))
+                .Schema;
+
+            var originalColumnName = JsonConvert.DeserializeObject<Dictionary<string, string>>(tableSchema)
+                .FirstOrDefault(x => String.Equals(x.Key, column, comparer))
+                .Key;
+
+            return rows
+                .AsEnumerable()
+                .Select(r => new RowViewModel
+                {
+                    Id = r.Id,
+                    TableId = r.TableId,
+                    Content = JsonConvert.DeserializeObject<Dictionary<string, string>>(r.Content)
+                })
+                .Where(r => r.Content[originalColumnName].IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0)
+                .ToList();
+        }
     }
 }

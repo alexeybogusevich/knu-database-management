@@ -25,6 +25,9 @@
                         <a asp-page="/EditTable" asp-route-tableId="@table.Id">Edit</a>
                     </td>
                     <td>
+                        <a asp-page="/SearchRequest" asp-route-tableId="@table.Id">Search</a>
+                    </td>
+                    <td>
                         <a asp-page="/DeleteTable" asp-route-databaseId="@Model.Database.Id" asp-route-tableId="@table.Id">Delete</a>
                     </td>
                 </tr>

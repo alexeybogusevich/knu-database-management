@@ -7,6 +7,7 @@ namespace KNU.IT.DbManagementSystem.Models
 {
     public class TableViewModel
     {
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public Guid DatabaseId { get; set; }
         public Dictionary<string, string> Schema { get; set; }

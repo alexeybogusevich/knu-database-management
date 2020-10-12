@@ -13,5 +13,6 @@ namespace KNU.IT.DbManagementSystem.Services.RowService
         Task UpdateAsync(Row row);
         Task DeleteAsync(Guid id);
         Task<List<RowViewModel>> GetAllViewModelsByTableAsync(Guid tableId);
+        Task<List<RowViewModel>> SearchByKeywordAsync(Guid tableId, string keyword, string column);
     }
 }
