@@ -20,7 +20,7 @@ namespace KNU.IT.DbManagementSystem.Pages
         public async Task<ActionResult> OnGet(Guid tableId, Guid databaseId)
         {
             await tableService.DeleteAsync(tableId);
-            return RedirectToPage("./ExploreRows", new { databaseId });
+            return RedirectToPage("./ExploreTables", new { databaseId });
         }
     }
 }
