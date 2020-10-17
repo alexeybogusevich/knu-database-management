@@ -40,16 +40,15 @@ namespace KNU.IT.DbManagementSystemTests.PageModelTests
             var rowList = new List<RowViewModel> { row };
 
             var mockRowService = new Mock<IRowService>();
-            mockRowService.Setup(m => m.GetAllViewModelsByTableAsync(databaseId)).ReturnsAsync(rowList);
+            mockRowService.Setup(m => m.GetAllViewModelsByTableAsync(It.IsAny<Guid>())).ReturnsAsync(rowList);
 
             var mockTableService = new Mock<ITableService>();
-            mockTableService.Setup(m => m.GetAsync(tableId)).ReturnsAsync(table);
+            mockTableService.Setup(m => m.GetAsync(It.IsAny<Guid>())).ReturnsAsync(table);
 
             var pageModel = new ExploreRowsModel(mockTableService.Object, mockRowService.Object);
 
             // Act
             var response = await pageModel.OnGetAsync(databaseId);
-
 
             // Assert
             Assert.IsNotNull(response);
