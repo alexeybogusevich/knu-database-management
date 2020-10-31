@@ -1,21 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using KNU.IT.DbManagementSystem.Services.DatabaseService;
-using KNU.IT.DbManagementSystem.Services.RowService;
-using KNU.IT.DbManagementSystem.Services.TableService;
 using KNU.IT.DbManager.Connections;
+using KNU.IT.DbServices.Services.DatabaseService;
+using KNU.IT.DbServices.Services.RowService;
+using KNU.IT.DbServices.Services.TableService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace KNU.IT.DbManagementSystem
+namespace KNU.IT.DBMSWebApplication
 {
     public class Startup
     {

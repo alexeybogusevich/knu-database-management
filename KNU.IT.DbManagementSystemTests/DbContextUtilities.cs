@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace KNU.IT.DbManagementSystemTests
+namespace KNU.IT.DBMSTests
 {
     public class DbContextUtilities
     {

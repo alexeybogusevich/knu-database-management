@@ -1,5 +1,4 @@
-﻿using KNU.IT.DbManagementSystem.Models;
-using KNU.IT.DbManager.Connections;
+﻿using KNU.IT.DbManager.Connections;
 using KNU.IT.DbManager.Models;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -7,8 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KNU.IT.DbServices.Models;
 
-namespace KNU.IT.DbManagementSystem.Services.TableService
+namespace KNU.IT.DbServices.Services.TableService
 {
     public class TableService : ITableService
     {

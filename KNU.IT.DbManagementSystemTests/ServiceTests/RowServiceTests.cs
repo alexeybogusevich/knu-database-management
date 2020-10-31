@@ -1,7 +1,6 @@
-﻿using KNU.IT.DbManagementSystem.Services.RowService;
-using KNU.IT.DbManager.Connections;
+﻿using KNU.IT.DbManager.Connections;
 using KNU.IT.DbManager.Models;
-using Microsoft.CodeAnalysis.Operations;
+using KNU.IT.DbServices.Services.RowService;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using System;
@@ -10,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KNU.IT.DbManagementSystemTests.ServiceTests
+namespace KNU.IT.DBMSTests.ServiceTests
 {
     [TestClass]
     public class RowServiceTests

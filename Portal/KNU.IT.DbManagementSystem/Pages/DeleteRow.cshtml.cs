@@ -1,12 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using KNU.IT.DbManagementSystem.Services.RowService;
+using KNU.IT.DbServices.Services.RowService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace KNU.IT.DbManagementSystem.Pages
+namespace KNU.IT.DBMSWebApplication.Pages
 {
     public class DeleteRowModel : PageModel
     {

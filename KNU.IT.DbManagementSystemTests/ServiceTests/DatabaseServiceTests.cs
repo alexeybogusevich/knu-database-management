@@ -1,13 +1,12 @@
-﻿using KNU.IT.DbManagementSystem.Services.DatabaseService;
-using KNU.IT.DbManagementSystemTests;
-using KNU.IT.DbManager.Connections;
+﻿using KNU.IT.DbManager.Connections;
 using KNU.IT.DbManager.Models;
+using KNU.IT.DbServices.Services.DatabaseService;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace KNU.IT.ServiceTests.DbManagementSystemTests
+namespace KNU.IT.DBMSTests.DbManagementSystemTests
 {
     [TestClass]
     public class DatabaseServiceTests

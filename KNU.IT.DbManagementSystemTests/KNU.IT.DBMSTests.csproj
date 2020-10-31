@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Portal\KNU.IT.DbManagementSystem\KNU.IT.DbManagementSystem.csproj" />
+    <ProjectReference Include="..\KNU.IT.DbServices\KNU.IT.DbServices.csproj" />
     <ProjectReference Include="..\Shared\KNU.IT.DbManager\KNU.IT.DbManager.csproj" />
   </ItemGroup>
 

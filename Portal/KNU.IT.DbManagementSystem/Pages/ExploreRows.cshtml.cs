@@ -2,15 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using KNU.IT.DbManagementSystem.Models;
-using KNU.IT.DbManagementSystem.Services.RowService;
-using KNU.IT.DbManagementSystem.Services.TableService;
 using KNU.IT.DbManager.Models;
+using KNU.IT.DbServices.Models;
+using KNU.IT.DbServices.Services.RowService;
+using KNU.IT.DbServices.Services.TableService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 
-namespace KNU.IT.DbManagementSystem.Pages
+namespace KNU.IT.DBMSWebApplication.Pages
 {
     public class ExploreRowsModel : PageModel
     {

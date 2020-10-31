@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace KNU.IT.DbManagementSystem.Services.DatabaseService
+namespace KNU.IT.DbServices.Services.DatabaseService
 {
     public class DatabaseService : IDatabaseService
     {

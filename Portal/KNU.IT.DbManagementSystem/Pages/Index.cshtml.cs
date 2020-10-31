@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
-namespace KNU.IT.DbManagementSystem.Pages
+namespace KNU.IT.DBMSWebApplication.Pages
 {
     public class IndexModel : PageModel
     {
