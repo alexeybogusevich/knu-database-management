@@ -19,15 +19,15 @@ namespace KNU.IT.DbServices.Services.TableService
             this.context = context;
         }
 
-        public async Task<Table> GetAsync(Guid id)
+        public async Task<Table> GetRecordAsync(Guid id)
         {
             return await context.Tables.FirstOrDefaultAsync(t => t.Id.Equals(id));
         }
 
-        public async Task<TableViewModel> GetViewModelAsync(Guid id)
+        public async Task<TableDTO> GetAsync(Guid id)
         {
             var table = await context.Tables.FirstOrDefaultAsync(t => t.Id.Equals(id));
-            return new TableViewModel
+            return new TableDTO
             {
                 Id = table.Id,
                 Name = table.Name,
@@ -36,26 +36,28 @@ namespace KNU.IT.DbServices.Services.TableService
             };
         }
 
-        public async Task<List<Table>> GetAllByDatabaseAsync(Guid databaseId)
+        public async Task<List<Table>> GetAllAsync(Guid databaseId)
         {
             return await context.Tables.Where(t => t.DatabaseId.Equals(databaseId)).ToListAsync();
         }
 
-        public async Task CreateAsync(Table table)
+        public async Task<Table> CreateAsync(Table table)
         {
             await context.Tables.AddAsync(table);
             await context.SaveChangesAsync();
+            return table;
         }
 
-        public async Task UpdateAsync(Table table)
+        public async Task<Table> UpdateAsync(Table table)
         {
             context.Tables.Update(table);
             await context.SaveChangesAsync();
+            return table;
         }
 
         public async Task DeleteAsync(Guid id)
         {
-            var table = await GetAsync(id);
+            var table = await GetRecordAsync(id);
             context.Tables.Remove(table);
             await context.SaveChangesAsync();
         }

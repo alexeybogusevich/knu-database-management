@@ -9,8 +9,8 @@ namespace KNU.IT.DbServices.Services.DatabaseService
     {
         Task<Database> GetAsync(Guid id);
         Task<List<Database>> GetAllAsync();
-        Task CreateAsync(Database database);
-        Task UpdateAsync(Database database);
+        Task<Database> CreateAsync(Database database);
+        Task<Database> UpdateAsync(Database database);
         Task DeleteAsync(Guid id);
     }
 }

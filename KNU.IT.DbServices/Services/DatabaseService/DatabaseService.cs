@@ -27,16 +27,18 @@ namespace KNU.IT.DbServices.Services.DatabaseService
             return await context.Databases.ToListAsync();
         }
 
-        public async Task CreateAsync(Database database)
+        public async Task<Database> CreateAsync(Database database)
         {
             await context.Databases.AddAsync(database);
             await context.SaveChangesAsync();
+            return database;
         }
 
-        public async Task UpdateAsync(Database database)
+        public async Task<Database> UpdateAsync(Database database)
         {
             context.Databases.Update(database);
             await context.SaveChangesAsync();
+            return database;
         }
 
         public async Task DeleteAsync(Guid id)

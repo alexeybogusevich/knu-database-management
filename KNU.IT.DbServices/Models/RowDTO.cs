@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace KNU.IT.DbServices.Models
 {
-    public class RowViewModel
+    public class RowDTO
     {
         public Guid Id { get; set; }
         public Guid TableId { get; set; }

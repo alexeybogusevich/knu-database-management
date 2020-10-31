@@ -19,22 +19,22 @@ namespace KNU.IT.DbServices.Services.RowService
             this.context = context;
         }
 
-        public async Task<Row> GetAsync(Guid id)
+        public async Task<Row> GetRecordAsync(Guid id)
         {
             return await context.Rows.FirstOrDefaultAsync(r => r.Id.Equals(id));
         }
 
-        public async Task<RowViewModel> GetViewModelAsync(Guid id)
+        public async Task<RowDTO> GetAsync(Guid id)
         {
-            var dbRow = await GetAsync(id);
-            return new RowViewModel { TableId = dbRow.TableId, Content = JsonConvert.DeserializeObject<Dictionary<string, string>>(dbRow.Content) };
+            var dbRow = await GetRecordAsync(id);
+            return new RowDTO { TableId = dbRow.TableId, Content = JsonConvert.DeserializeObject<Dictionary<string, string>>(dbRow.Content) };
         }
 
-        public async Task<List<RowViewModel>> GetAllViewModelsByTableAsync(Guid tableId)
+        public async Task<List<RowDTO>> GetRowsAsync(Guid tableId)
         {
             return await context.Rows
                 .Where(r => r.TableId.Equals(tableId))
-                .Select(r => new RowViewModel
+                .Select(r => new RowDTO
                 {
                     Id = r.Id,
                     TableId = r.TableId,
@@ -43,26 +43,28 @@ namespace KNU.IT.DbServices.Services.RowService
                 .ToListAsync();
         }
 
-        public async Task CreateAsync(Row row)
+        public async Task<Row> CreateAsync(Row row)
         {
             await context.Rows.AddAsync(row);
             await context.SaveChangesAsync();
+            return row;
         }
 
-        public async Task UpdateAsync(Row row)
+        public async Task<Row> UpdateAsync(Row row)
         {
             context.Rows.Update(row);
             await context.SaveChangesAsync();
+            return row;
         }
 
         public async Task DeleteAsync(Guid id)
         {
-            var row = await GetAsync(id);
+            var row = await GetRecordAsync(id);
             context.Rows.Remove(row);
             await context.SaveChangesAsync();
         }
 
-        public async Task<List<RowViewModel>> SearchByKeywordAsync(Guid tableId, string keyword, string column)
+        public async Task<List<RowDTO>> SearchByKeywordAsync(Guid tableId, string keyword, string column)
         {
             var rows = await context.Rows
                 .Where(r => r.TableId.Equals(tableId))
@@ -80,7 +82,7 @@ namespace KNU.IT.DbServices.Services.RowService
 
             return rows
                 .AsEnumerable()
-                .Select(r => new RowViewModel
+                .Select(r => new RowDTO
                 {
                     Id = r.Id,
                     TableId = r.TableId,

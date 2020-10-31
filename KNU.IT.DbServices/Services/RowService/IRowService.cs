@@ -8,11 +8,12 @@ namespace KNU.IT.DbServices.Services.RowService
 {
     public interface IRowService
     {
-        Task<Row> GetAsync(Guid id);
-        Task CreateAsync(Row row);
-        Task UpdateAsync(Row row);
+        Task<RowDTO> GetAsync(Guid id);
+        Task<Row> GetRecordAsync(Guid id);
+        Task<Row> CreateAsync(Row row);
+        Task<Row> UpdateAsync(Row row);
         Task DeleteAsync(Guid id);
-        Task<List<RowViewModel>> GetAllViewModelsByTableAsync(Guid tableId);
-        Task<List<RowViewModel>> SearchByKeywordAsync(Guid tableId, string keyword, string column);
+        Task<List<RowDTO>> GetRowsAsync(Guid tableId);
+        Task<List<RowDTO>> SearchByKeywordAsync(Guid tableId, string keyword, string column);
     }
 }
