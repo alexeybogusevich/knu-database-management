@@ -36,9 +36,19 @@ namespace KNU.IT.DbServices.Services.TableService
             };
         }
 
-        public async Task<List<Table>> GetAllAsync(Guid databaseId)
+        public async Task<List<TableDTO>> GetAllAsync(Guid databaseId)
         {
-            return await context.Tables.Where(t => t.DatabaseId.Equals(databaseId)).ToListAsync();
+            return await context.Tables
+                .Where(t => t.DatabaseId.Equals(databaseId))
+                .AsNoTracking()
+                .Select(table => new TableDTO
+                {
+                    Id = table.Id,
+                    Name = table.Name,
+                    DatabaseId = table.DatabaseId,
+                    Schema = JsonConvert.DeserializeObject<Dictionary<string, string>>(table.Schema)
+                })
+                .ToListAsync();
         }
 
         public async Task<Table> CreateAsync(Table table)

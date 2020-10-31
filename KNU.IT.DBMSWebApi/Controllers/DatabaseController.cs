@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using KNU.IT.DbManager.Models;
+using KNU.IT.DBMSWebApi.Constants;
 using KNU.IT.DbServices.Services.DatabaseService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,43 +22,43 @@ namespace KNU.IT.DBMSWebApi.Controllers
         }
 
         // GET: api/database
-        [HttpGet("get/{id}")]
-        public async Task<ActionResult> GetAsync(Guid id)
+        [HttpGet("get/{id}", Name = RouteNames.DatabaseGet)]
+        public async Task<HATEOASResult> GetAsync(Guid id)
         {
             var database = await databaseService.GetAsync(id);
-            return Ok(database);
+            return this.HATEOASResult(database, (d) => Ok(d));
         }
 
         // GET: api/database
-        [HttpGet("list")]
-        public async Task<ActionResult> GetAllAsync()
+        [HttpGet("list", Name = RouteNames.DatabaseGetAll)]
+        public async Task<HATEOASResult> GetAllAsync()
         {
             var databases = await databaseService.GetAllAsync();
-            return Ok(databases);
+            return this.HATEOASResult(databases, (d) => Ok(d));
         }
 
         // POST: api/database
-        [HttpPost("create")]
-        public async Task<ActionResult> CreateAsync([FromBody] Database database)
+        [HttpPost("create", Name = RouteNames.DatabaseCreate)]
+        public async Task<HATEOASResult> CreateAsync([FromBody] Database database)
         {
             var createdDatabase = await databaseService.CreateAsync(database);
-            return Ok(createdDatabase);
+            return this.HATEOASResult(createdDatabase, (d) => Ok(d));
         }
 
         // POST: api/database
-        [HttpPost("update")]
-        public async Task<ActionResult> UpdateAsync([FromBody] Database database)
+        [HttpPost("update", Name = RouteNames.DatabaseUpdate)]
+        public async Task<HATEOASResult> UpdateAsync([FromBody] Database database)
         {
-            var createdDatabase = await databaseService.CreateAsync(database);
-            return Ok(createdDatabase);
+            var updatedDatabase = await databaseService.CreateAsync(database);
+            return this.HATEOASResult(updatedDatabase, (d) => Ok(d));
         }
 
         // POST: api/database
-        [HttpPost("delete/{id}")]
-        public async Task<ActionResult> DeleteAsync(Guid id)
+        [HttpPost("delete/{id}", Name = RouteNames.DatabaseDelete)]
+        public async Task<HATEOASResult> DeleteAsync([FromQuery]Guid id)
         {
             await databaseService.DeleteAsync(id);
-            return Ok();
+            return this.HATEOASResult(null, (d) => Ok());
         }
     }
 }

@@ -1,13 +1,13 @@
 using KNU.IT.DbManager.Connections;
+using KNU.IT.DbManager.Models;
 using KNU.IT.DBMSWebApi.Constants;
 using KNU.IT.DBMSWebApi.Middleware;
+using KNU.IT.DbServices.Models;
 using KNU.IT.DbServices.Services.DatabaseService;
 using KNU.IT.DbServices.Services.RowService;
 using KNU.IT.DbServices.Services.TableService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -15,7 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
-using System.Collections.Generic;
+using System.Net.Http;
 
 namespace KNU.IT.DBMSWebApi
 {
@@ -38,6 +38,82 @@ namespace KNU.IT.DBMSWebApi
             services.AddScoped<IDatabaseService, DatabaseService>();
             services.AddScoped<ITableService, TableService>();
             services.AddScoped<IRowService, RowService>();
+
+            services.AddHATEOAS(options =>
+            {
+                options.AddLink<RowDTO>("self",
+                    RouteNames.RowGet,
+                    HttpMethod.Get,
+                    (x) => new { id = x.Id });
+
+                options.AddLink<RowDTO>("by table",
+                   RouteNames.RowGetByTable,
+                   HttpMethod.Get,
+                   (x) => new { tableId = x.Id });
+
+                options.AddLink<RowDTO>("create",
+                    RouteNames.RowCreate,
+                    HttpMethod.Post, null);
+
+                options.AddLink<RowDTO>("delete",
+                    RouteNames.RowDelete,
+                    HttpMethod.Delete,
+                    (x) => new { id = x.Id });
+
+                options.AddLink<RowDTO>("update",
+                    RouteNames.RowUpdate,
+                    HttpMethod.Post, null);
+
+                options.AddLink<TableDTO>("self",
+                    RouteNames.TableGet,
+                    HttpMethod.Get,
+                    (x) => new { id = x.Id });
+
+                options.AddLink<TableDTO>("by database",
+                   RouteNames.TableGetByDatabase,
+                   HttpMethod.Get,
+                   (x) => new { databaseId = x.Id });
+
+                options.AddLink<TableDTO>("search",
+                    RouteNames.TableSearch,
+                    HttpMethod.Get,
+                    (x) => new { tableId = x.Id });
+
+                options.AddLink<TableDTO>("delete",
+                    RouteNames.TableDelete,
+                    HttpMethod.Delete,
+                    (x) => new { id = x.Id });
+
+                options.AddLink<TableDTO>("create",
+                    RouteNames.TableCreate,
+                    HttpMethod.Post, null);
+
+                options.AddLink<TableDTO>("update",
+                    RouteNames.TableUpdate,
+                    HttpMethod.Post, null);
+
+                options.AddLink<Database>("self",
+                  RouteNames.DatabaseGet,
+                  HttpMethod.Get,
+                  (x) => new { id = x.Id });
+
+                options.AddLink<Database>("all",
+                   RouteNames.DatabaseGetAll,
+                   HttpMethod.Get, null);
+
+                options.AddLink<Database>("delete",
+                    RouteNames.DatabaseDelete,
+                    HttpMethod.Delete,
+                    (x) => new { id = x.Id });
+
+                options.AddLink<Database>("create",
+                    RouteNames.DatabaseCreate,
+                    HttpMethod.Post, null);
+
+                options.AddLink<Database>("update",
+                    RouteNames.DatabaseUpdate,
+                    HttpMethod.Post, null );
+            });
 
             services.AddSwaggerGen(c =>
             {
