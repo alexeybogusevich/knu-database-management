@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Shared\KNU.IT.DbManager\KNU.IT.DbManager.csproj" />
+    <ProjectReference Include="..\KNU.IT.DbManager\KNU.IT.DbManager.csproj" />
   </ItemGroup>
 
 </Project>
