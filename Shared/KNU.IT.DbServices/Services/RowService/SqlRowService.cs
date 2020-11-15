@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace KNU.IT.DbServices.Services.RowService
 {
-    public class RowService : IRowService
+    public class SqlRowService : IRowService
     {
         private readonly AzureSqlDbContext context;
 
-        public RowService(AzureSqlDbContext context)
+        public SqlRowService(AzureSqlDbContext context)
         {
             this.context = context;
         }
@@ -77,7 +77,7 @@ namespace KNU.IT.DbServices.Services.RowService
                 .Schema;
 
             var originalColumnName = JsonConvert.DeserializeObject<Dictionary<string, string>>(tableSchema)
-                .FirstOrDefault(x => String.Equals(x.Key, column, comparer))
+                .FirstOrDefault(x => string.Equals(x.Key, column, comparer))
                 .Key;
 
             return rows

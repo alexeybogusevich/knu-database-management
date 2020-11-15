@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace KNU.IT.DbServices.Services.DatabaseService
 {
-    public class DatabaseService : IDatabaseService
+    public class SqlDatabaseService : IDatabaseService
     {
         private readonly AzureSqlDbContext context;
 
-        public DatabaseService(AzureSqlDbContext context)
+        public SqlDatabaseService(AzureSqlDbContext context)
         {
             this.context = context;
         }

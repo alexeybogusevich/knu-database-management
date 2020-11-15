@@ -66,7 +66,7 @@ namespace KNU.IT.DBMSTests.ServiceTests
             await context.Tables.AddAsync(table);
             await context.SaveChangesAsync();
 
-            var rowService = new RowService(context);
+            var rowService = new SqlRowService(context);
 
             // Act
             var result = await rowService.SearchByKeywordAsync(table.Id, searchKeyword, searchColumn);

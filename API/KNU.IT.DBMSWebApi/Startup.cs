@@ -3,6 +3,7 @@ using KNU.IT.DbManager.Models;
 using KNU.IT.DBMSWebApi.Constants;
 using KNU.IT.DBMSWebApi.Middleware;
 using KNU.IT.DbServices.Models;
+using KNU.IT.DbServices.Models.SettingModels;
 using KNU.IT.DbServices.Services.DatabaseService;
 using KNU.IT.DbServices.Services.RowService;
 using KNU.IT.DbServices.Services.TableService;
@@ -13,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Net.Http;
@@ -35,12 +37,18 @@ namespace KNU.IT.DBMSWebApi
             services.AddDbContext<AzureSqlDbContext>(options 
                 => options.UseSqlServer(Configuration.GetConnectionString(ConfigurationConstants.DatabaseConntectionString)));
 
-            services.AddScoped<IDatabaseService, DatabaseService>();
-            services.AddScoped<ITableService, TableService>();
-            services.AddScoped<IRowService, RowService>();
+            services.AddScoped<IDatabaseService, MongoDatabaseService>();
+            services.AddScoped<ITableService, MongoTableService>();
+            services.AddScoped<IRowService, MongoRowService>();
+
+            services.Configure<MongoDatabaseSettings>(
+                Configuration.GetSection(nameof(MongoDatabaseSettings)));
+
+            services.AddSingleton<IMongoDatabaseSettings>(sp =>
+                sp.GetRequiredService<IOptions<MongoDatabaseSettings>>().Value);
 
             services.AddHATEOAS(options =>
-            {
+            {       
                 options.AddLink<RowDTO>("self",
                     RouteNames.RowGet,
                     HttpMethod.Get,

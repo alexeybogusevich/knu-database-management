@@ -26,7 +26,7 @@ namespace KNU.IT.DBMSTests.DbManagementSystemTests
             await context.Databases.AddAsync(database);
             await context.SaveChangesAsync();
 
-            var databaseService = new DatabaseService(context);
+            var databaseService = new SqlDatabaseService(context);
 
             // Act
             var result = await databaseService.GetAsync(database.Id);
@@ -47,7 +47,7 @@ namespace KNU.IT.DBMSTests.DbManagementSystemTests
             };
             using var context = new AzureSqlDbContext(DbContextUtilities.GetContextOptions());
 
-            var databaseService = new DatabaseService(context);
+            var databaseService = new SqlDatabaseService(context);
 
             // Act
             await databaseService.CreateAsync(database);
@@ -73,7 +73,7 @@ namespace KNU.IT.DBMSTests.DbManagementSystemTests
             var updatedName = "updatedTestDatabaseName";
             database.Name = updatedName;
 
-            var databaseService = new DatabaseService(context);
+            var databaseService = new SqlDatabaseService(context);
 
             // Act
             await databaseService.UpdateAsync(database);
@@ -96,7 +96,7 @@ namespace KNU.IT.DBMSTests.DbManagementSystemTests
             await context.Databases.AddAsync(database);
             await context.SaveChangesAsync();
 
-            var databaseService = new DatabaseService(context);
+            var databaseService = new SqlDatabaseService(context);
 
             // Act
             await databaseService.DeleteAsync(database.Id);

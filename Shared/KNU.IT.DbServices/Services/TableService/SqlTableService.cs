@@ -10,11 +10,11 @@ using KNU.IT.DbServices.Models;
 
 namespace KNU.IT.DbServices.Services.TableService
 {
-    public class TableService : ITableService
+    public class SqlTableService : ITableService
     {
         private readonly AzureSqlDbContext context;
 
-        public TableService(AzureSqlDbContext context)
+        public SqlTableService(AzureSqlDbContext context)
         {
             this.context = context;
         }
