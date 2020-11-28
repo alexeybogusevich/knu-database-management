@@ -2,9 +2,7 @@
 using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace KNU.IT.DbManager.Models
 {
@@ -13,7 +11,9 @@ namespace KNU.IT.DbManager.Models
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         [NotMapped]
+        [JsonIgnore]
         public string ObjectId { get; set; }
+        [JsonIgnore]
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Schema { get; set; }

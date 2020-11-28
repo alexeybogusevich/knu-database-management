@@ -37,9 +37,9 @@ namespace KNU.IT.DBMSWebApi
             services.AddDbContext<AzureSqlDbContext>(options 
                 => options.UseSqlServer(Configuration.GetConnectionString(ConfigurationConstants.DatabaseConntectionString)));
 
-            services.AddScoped<IDatabaseService, MongoDatabaseService>();
-            services.AddScoped<ITableService, MongoTableService>();
-            services.AddScoped<IRowService, MongoRowService>();
+            services.AddScoped<IDatabaseService, SqlDatabaseService>();
+            services.AddScoped<ITableService, SqlTableService>();
+            services.AddScoped<IRowService, SqlRowService>();
 
             services.Configure<MongoDatabaseSettings>(
                 Configuration.GetSection(nameof(MongoDatabaseSettings)));
@@ -70,7 +70,7 @@ namespace KNU.IT.DBMSWebApi
 
                 options.AddLink<RowDTO>("update",
                     RouteNames.RowUpdate,
-                    HttpMethod.Post, null);
+                    HttpMethod.Put, null);
 
                 options.AddLink<TableDTO>("self",
                     RouteNames.TableGet,
@@ -98,7 +98,7 @@ namespace KNU.IT.DBMSWebApi
 
                 options.AddLink<TableDTO>("update",
                     RouteNames.TableUpdate,
-                    HttpMethod.Post, null);
+                    HttpMethod.Put, null);
 
                 options.AddLink<Database>("self",
                   RouteNames.DatabaseGet,
@@ -120,7 +120,7 @@ namespace KNU.IT.DBMSWebApi
 
                 options.AddLink<Database>("update",
                     RouteNames.DatabaseUpdate,
-                    HttpMethod.Post, null );
+                    HttpMethod.Put, null );
             });
 
             services.AddSwaggerGen(c =>

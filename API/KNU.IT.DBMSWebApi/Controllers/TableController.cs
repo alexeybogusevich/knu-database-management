@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using KNU.IT.DbManager.Models;
 using KNU.IT.DBMSWebApi.Constants;
 using KNU.IT.DbServices.Services.RowService;
 using KNU.IT.DbServices.Services.TableService;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KNU.IT.DBMSWebApi.Controllers
@@ -25,7 +22,8 @@ namespace KNU.IT.DBMSWebApi.Controllers
         }
 
         // GET: api/table
-        [HttpGet("get/{id}", Name = RouteNames.TableGet)]
+        [HttpGet("{id}", Name = RouteNames.TableGet)]
+        [ProducesResponseType(typeof(Table), 200)]
         public async Task<HATEOASResult> GetAsync(Guid id)
         {
             var table = await tableService.GetAsync(id);
@@ -34,6 +32,7 @@ namespace KNU.IT.DBMSWebApi.Controllers
 
         // GET: api/table
         [HttpGet("list/{databaseId}", Name = RouteNames.TableGetByDatabase)]
+        [ProducesResponseType(typeof(Table), 200)]
         public async Task<HATEOASResult> GetByDatabaseAsync(Guid databaseId)
         {
             var tables = await tableService.GetAllAsync(databaseId);
@@ -43,6 +42,7 @@ namespace KNU.IT.DBMSWebApi.Controllers
 
         // GET: api/table
         [HttpGet("search/{tableId}", Name = RouteNames.TableSearch)]
+        [ProducesResponseType(typeof(Row), 200)]
         public async Task<HATEOASResult> SearchAsync(Guid tableId, string keyword, string column)
         {
             var rows = await rowService.SearchByKeywordAsync(tableId, keyword, column);
@@ -50,7 +50,8 @@ namespace KNU.IT.DBMSWebApi.Controllers
         }
 
         // POST: api/table
-        [HttpPost("create", Name = RouteNames.TableCreate)]
+        [HttpPost(Name = RouteNames.TableCreate)]
+        [ProducesResponseType(200)]
         public async Task<HATEOASResult> CreateAsync([FromBody] Table table)
         {
             var createdTable = await tableService.CreateAsync(table);
@@ -58,7 +59,8 @@ namespace KNU.IT.DBMSWebApi.Controllers
         }
 
         // POST: api/table
-        [HttpPost("update", Name = RouteNames.TableUpdate)]
+        [HttpPut(Name = RouteNames.TableUpdate)]
+        [ProducesResponseType(200)]
         public async Task<HATEOASResult> UpdateAsync([FromBody] Table table)
         {
             var updatedTable = await tableService.UpdateAsync(table);
@@ -66,7 +68,8 @@ namespace KNU.IT.DBMSWebApi.Controllers
         }
 
         // POST: api/table
-        [HttpPost("delete/{id}", Name = RouteNames.TableDelete)]
+        [HttpDelete("{id}", Name = RouteNames.TableDelete)]
+        [ProducesResponseType(200)]
         public async Task<HATEOASResult> GetRowsAsync(Guid id)
         {
             await tableService.DeleteAsync(id);

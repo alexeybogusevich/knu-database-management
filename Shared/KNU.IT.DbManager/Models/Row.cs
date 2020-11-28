@@ -13,7 +13,9 @@ namespace KNU.IT.DbManager.Models
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         [NotMapped]
+        [JsonIgnore]
         public string ObjectId { get; set; }
+        [JsonIgnore]
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Content { get; set; }

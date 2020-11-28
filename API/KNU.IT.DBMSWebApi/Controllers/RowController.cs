@@ -22,7 +22,8 @@ namespace KNU.IT.DBMSWebApi.Controllers
         }
 
         // GET: api/row
-        [HttpGet("get/{id}", Name = RouteNames.RowGet)]
+        [HttpGet("{id}", Name = RouteNames.RowGet)]
+        [ProducesResponseType(typeof(Row), 200)]
         public async Task<HATEOASResult> GetAsync(Guid id)
         {
             var row = await rowService.GetAsync(id);
@@ -31,6 +32,7 @@ namespace KNU.IT.DBMSWebApi.Controllers
 
         // GET: api/row
         [HttpGet("list/{tableId}", Name = RouteNames.RowGetByTable)]
+        [ProducesResponseType(typeof(Row), 200)]
         public async Task<HATEOASResult> GetByTableAsync(Guid tableId)
         {
             var rows = await rowService.GetRowsAsync(tableId);
@@ -38,7 +40,8 @@ namespace KNU.IT.DBMSWebApi.Controllers
         }
 
         // POST: api/row
-        [HttpPost("update", Name = RouteNames.RowUpdate)]
+        [HttpPut(Name = RouteNames.RowUpdate)]
+        [ProducesResponseType(200)]
         public async Task<HATEOASResult> UpdateAsync([FromBody] Row row)
         {
             var updatedRow = await rowService.UpdateAsync(row);
@@ -46,7 +49,8 @@ namespace KNU.IT.DBMSWebApi.Controllers
         }
 
         // POST: api/row
-        [HttpPost("create", Name = RouteNames.RowCreate)]
+        [HttpPost(Name = RouteNames.RowCreate)]
+        [ProducesResponseType(200)]
         public async Task<HATEOASResult> CreateAsync([FromBody] Row row)
         {
             var createdRow = await rowService.CreateAsync(row);
@@ -54,7 +58,8 @@ namespace KNU.IT.DBMSWebApi.Controllers
         }
 
         // POST: api/row
-        [HttpPost("delete/{id}", Name = RouteNames.RowDelete)]
+        [HttpDelete("{id}", Name = RouteNames.RowDelete)]
+        [ProducesResponseType(200)]
         public async Task<HATEOASResult> DeleteAsync(Guid id)
         {
             await rowService.DeleteAsync(id);

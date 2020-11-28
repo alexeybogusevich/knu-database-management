@@ -22,7 +22,8 @@ namespace KNU.IT.DBMSWebApi.Controllers
         }
 
         // GET: api/database
-        [HttpGet("get/{id}", Name = RouteNames.DatabaseGet)]
+        [HttpGet("{id}", Name = RouteNames.DatabaseGet)]
+        [ProducesResponseType(typeof(Database), 200)]
         public async Task<HATEOASResult> GetAsync(Guid id)
         {
             var database = await databaseService.GetAsync(id);
@@ -30,7 +31,8 @@ namespace KNU.IT.DBMSWebApi.Controllers
         }
 
         // GET: api/database
-        [HttpGet("list", Name = RouteNames.DatabaseGetAll)]
+        [HttpGet(Name = RouteNames.DatabaseGetAll)]
+        [ProducesResponseType(typeof(Database), 200)]
         public async Task<HATEOASResult> GetAllAsync()
         {
             var databases = await databaseService.GetAllAsync();
@@ -38,7 +40,8 @@ namespace KNU.IT.DBMSWebApi.Controllers
         }
 
         // POST: api/database
-        [HttpPost("create", Name = RouteNames.DatabaseCreate)]
+        [HttpPost(Name = RouteNames.DatabaseCreate)]
+        [ProducesResponseType(200)]
         public async Task<HATEOASResult> CreateAsync([FromBody] Database database)
         {
             var createdDatabase = await databaseService.CreateAsync(database);
@@ -46,7 +49,8 @@ namespace KNU.IT.DBMSWebApi.Controllers
         }
 
         // POST: api/database
-        [HttpPost("update", Name = RouteNames.DatabaseUpdate)]
+        [HttpPut(Name = RouteNames.DatabaseUpdate)]
+        [ProducesResponseType(200)]
         public async Task<HATEOASResult> UpdateAsync([FromBody] Database database)
         {
             var updatedDatabase = await databaseService.CreateAsync(database);
@@ -54,7 +58,8 @@ namespace KNU.IT.DBMSWebApi.Controllers
         }
 
         // POST: api/database
-        [HttpPost("delete/{id}", Name = RouteNames.DatabaseDelete)]
+        [HttpDelete("{id}", Name = RouteNames.DatabaseDelete)]
+        [ProducesResponseType(200)]
         public async Task<HATEOASResult> DeleteAsync([FromQuery]Guid id)
         {
             await databaseService.DeleteAsync(id);
