@@ -1,12 +1,12 @@
 ﻿using KNU.IT.DbManager.Connections;
 using KNU.IT.DbManager.Models;
+using KNU.IT.DbServices.Models;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using KNU.IT.DbServices.Models;
 
 namespace KNU.IT.DbServices.Services.TableService
 {
@@ -24,28 +24,30 @@ namespace KNU.IT.DbServices.Services.TableService
             return await context.Tables.FirstOrDefaultAsync(t => t.Id.Equals(id));
         }
 
-        public async Task<TableDTO> GetAsync(Guid id)
+        public async Task<TableResponse> GetAsync(Guid id)
         {
             var table = await context.Tables.FirstOrDefaultAsync(t => t.Id.Equals(id));
-            return new TableDTO
+            return new TableResponse
             {
                 Id = table.Id,
                 Name = table.Name,
                 DatabaseId = table.DatabaseId,
+                DatabaseName = table.Database.Name,
                 Schema = JsonConvert.DeserializeObject<Dictionary<string, string>>(table.Schema)
             };
         }
 
-        public async Task<List<TableDTO>> GetAllAsync(Guid databaseId)
+        public async Task<List<TableResponse>> GetAllAsync(Guid databaseId)
         {
             return await context.Tables
                 .Where(t => t.DatabaseId.Equals(databaseId))
                 .AsNoTracking()
-                .Select(table => new TableDTO
+                .Select(table => new TableResponse
                 {
                     Id = table.Id,
                     Name = table.Name,
                     DatabaseId = table.DatabaseId,
+                    DatabaseName = table.Database.Name,
                     Schema = JsonConvert.DeserializeObject<Dictionary<string, string>>(table.Schema)
                 })
                 .ToListAsync();

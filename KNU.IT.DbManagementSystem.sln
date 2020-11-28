@@ -5,11 +5,13 @@ VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KNU.IT.DbManager", "Shared\KNU.IT.DbManager\KNU.IT.DbManager.csproj", "{EA0B3AC0-E34A-4909-8A1C-6E5134D80063}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KNU.IT.DBMSWebApi", "API\KNU.IT.DBMSWebApi\KNU.IT.DBMSWebApi.csproj", "{1913DD60-0B8C-4903-91A2-116B46338036}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KNU.IT.DBMSRESTAPI", "API\KNU.IT.DBMSWebApi\KNU.IT.DBMSRESTAPI.csproj", "{1913DD60-0B8C-4903-91A2-116B46338036}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KNU.IT.DbServices", "Shared\KNU.IT.DbServices\KNU.IT.DbServices.csproj", "{AD0DE5A0-86D8-43DF-9D11-37A2B65E77D8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KNU.IT.DBMSTests", "Tests\KNU.IT.DbManagementSystemTests\KNU.IT.DBMSTests.csproj", "{6E94E02C-DA92-4289-92CD-B72EDFAA9B23}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KNU.IT.DBMSGraphQLAPI", "KNU.IT.DBMSGraphQLAPI\KNU.IT.DBMSGraphQLAPI.csproj", "{8EB3E564-C290-479F-909D-8AB6850A080F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{6E94E02C-DA92-4289-92CD-B72EDFAA9B23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E94E02C-DA92-4289-92CD-B72EDFAA9B23}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E94E02C-DA92-4289-92CD-B72EDFAA9B23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EB3E564-C290-479F-909D-8AB6850A080F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EB3E564-C290-479F-909D-8AB6850A080F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EB3E564-C290-479F-909D-8AB6850A080F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EB3E564-C290-479F-909D-8AB6850A080F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

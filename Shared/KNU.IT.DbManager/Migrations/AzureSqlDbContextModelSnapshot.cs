@@ -42,9 +42,6 @@ namespace KNU.IT.DbManager.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<Guid>("TableId")
                         .HasColumnType("uniqueidentifier");
 

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using KNU.IT.DbManager.Models;
+﻿using KNU.IT.DbManager.Models;
 using KNU.IT.DBMSWebApi.Constants;
 using KNU.IT.DbServices.Services.DatabaseService;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace KNU.IT.DBMSWebApi.Controllers
 {
@@ -60,7 +57,7 @@ namespace KNU.IT.DBMSWebApi.Controllers
         // POST: api/database
         [HttpDelete("{id}", Name = RouteNames.DatabaseDelete)]
         [ProducesResponseType(200)]
-        public async Task<HATEOASResult> DeleteAsync([FromQuery]Guid id)
+        public async Task<HATEOASResult> DeleteAsync([FromQuery] Guid id)
         {
             await databaseService.DeleteAsync(id);
             return this.HATEOASResult(null, (d) => Ok());

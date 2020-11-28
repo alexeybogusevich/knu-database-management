@@ -1,6 +1,7 @@
 ﻿using KNU.IT.DbManager.Models;
 using KNU.IT.DbServices.Models;
 using KNU.IT.DbServices.Models.SettingModels;
+using KNU.IT.DbServices.Services.DatabaseService;
 using MongoDB.Driver;
 using Newtonsoft.Json;
 using System;
@@ -12,31 +13,36 @@ namespace KNU.IT.DbServices.Services.TableService
     public class MongoTableService : ITableService
     {
         private readonly IMongoCollection<Table> tables;
+        private readonly IDatabaseService databaseService;
 
-        public MongoTableService(IMongoDatabaseSettings settings)
+        public MongoTableService(IMongoDatabaseSettings settings, IDatabaseService databaseService)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
 
             tables = database.GetCollection<Table>(settings.TablesCollectionName);
+            this.databaseService = databaseService;
         }
 
-        public async Task<List<TableDTO>> GetAllAsync(Guid databaseId)
+        public async Task<List<TableResponse>> GetAllAsync(Guid databaseId)
         {
-            var result = new List<TableDTO>();
+            var result = new List<TableResponse>();
 
             var mongoTables = await tables
                 .Find(t => t.DatabaseId.Equals(databaseId))
                 .ToListAsync();
 
-            foreach(var table in mongoTables)
+            var database = await databaseService.GetAsync(databaseId);
+
+            foreach (var table in mongoTables)
             {
                 result.Add(
-                    new TableDTO
+                    new TableResponse
                     {
                         Id = table.Id,
                         Name = table.Name,
                         DatabaseId = table.DatabaseId,
+                        DatabaseName = database?.Name,
                         Schema = JsonConvert.DeserializeObject<Dictionary<string, string>>(table.Schema)
                     });
             }
@@ -44,14 +50,17 @@ namespace KNU.IT.DbServices.Services.TableService
             return result;
         }
 
-        public async Task<TableDTO> GetAsync(Guid id)
+        public async Task<TableResponse> GetAsync(Guid id)
         {
             var table = await tables.Find(db => db.Id == id).FirstOrDefaultAsync();
-            return new TableDTO
+            var database = await databaseService.GetAsync(table.DatabaseId);
+
+            return new TableResponse
             {
                 Id = table.Id,
                 Name = table.Name,
                 DatabaseId = table.DatabaseId,
+                DatabaseName = database?.Name,
                 Schema = JsonConvert.DeserializeObject<Dictionary<string, string>>(table.Schema)
             };
         }

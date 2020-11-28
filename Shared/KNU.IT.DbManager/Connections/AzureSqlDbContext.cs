@@ -1,8 +1,5 @@
 ﻿using KNU.IT.DbManager.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace KNU.IT.DbManager.Connections
 {
@@ -42,4 +39,3 @@ namespace KNU.IT.DbManager.Connections
         }
     }
 }
- 

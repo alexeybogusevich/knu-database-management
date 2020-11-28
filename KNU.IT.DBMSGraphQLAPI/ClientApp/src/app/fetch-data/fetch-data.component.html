@@ -1,0 +1,18 @@
+<h1>Databases ({{databases ? databases.length : 0}})</h1>
+
+<p *ngIf="!databases"><em>Loading...</em></p>
+
+<table class='table' *ngIf="databases">
+  <thead class="thead-dark">
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let database of databases">
+      <td>{{ database.id }}</td>
+      <td>{{ database.name }}</td>
+    </tr>
+  </tbody>
+</table>

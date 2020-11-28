@@ -34,7 +34,7 @@ namespace KNU.IT.DBMSWebApi
         {
             services.AddControllersWithViews();
 
-            services.AddDbContext<AzureSqlDbContext>(options 
+            services.AddDbContext<AzureSqlDbContext>(options
                 => options.UseSqlServer(Configuration.GetConnectionString(ConfigurationConstants.DatabaseConntectionString)));
 
             services.AddScoped<IDatabaseService, SqlDatabaseService>();
@@ -48,55 +48,55 @@ namespace KNU.IT.DBMSWebApi
                 sp.GetRequiredService<IOptions<MongoDatabaseSettings>>().Value);
 
             services.AddHATEOAS(options =>
-            {       
-                options.AddLink<RowDTO>("self",
+            {
+                options.AddLink<RowResponse>("self",
                     RouteNames.RowGet,
                     HttpMethod.Get,
                     (x) => new { id = x.Id });
 
-                options.AddLink<RowDTO>("by table",
+                options.AddLink<RowResponse>("by table",
                    RouteNames.RowGetByTable,
                    HttpMethod.Get,
                    (x) => new { tableId = x.Id });
 
-                options.AddLink<RowDTO>("create",
+                options.AddLink<RowResponse>("create",
                     RouteNames.RowCreate,
                     HttpMethod.Post, null);
 
-                options.AddLink<RowDTO>("delete",
+                options.AddLink<RowResponse>("delete",
                     RouteNames.RowDelete,
                     HttpMethod.Delete,
                     (x) => new { id = x.Id });
 
-                options.AddLink<RowDTO>("update",
+                options.AddLink<RowResponse>("update",
                     RouteNames.RowUpdate,
                     HttpMethod.Put, null);
 
-                options.AddLink<TableDTO>("self",
+                options.AddLink<TableResponse>("self",
                     RouteNames.TableGet,
                     HttpMethod.Get,
                     (x) => new { id = x.Id });
 
-                options.AddLink<TableDTO>("by database",
+                options.AddLink<TableResponse>("by database",
                    RouteNames.TableGetByDatabase,
                    HttpMethod.Get,
                    (x) => new { databaseId = x.Id });
 
-                options.AddLink<TableDTO>("search",
+                options.AddLink<TableResponse>("search",
                     RouteNames.TableSearch,
                     HttpMethod.Get,
                     (x) => new { tableId = x.Id });
 
-                options.AddLink<TableDTO>("delete",
+                options.AddLink<TableResponse>("delete",
                     RouteNames.TableDelete,
                     HttpMethod.Delete,
                     (x) => new { id = x.Id });
 
-                options.AddLink<TableDTO>("create",
+                options.AddLink<TableResponse>("create",
                     RouteNames.TableCreate,
                     HttpMethod.Post, null);
 
-                options.AddLink<TableDTO>("update",
+                options.AddLink<TableResponse>("update",
                     RouteNames.TableUpdate,
                     HttpMethod.Put, null);
 
@@ -120,7 +120,7 @@ namespace KNU.IT.DBMSWebApi
 
                 options.AddLink<Database>("update",
                     RouteNames.DatabaseUpdate,
-                    HttpMethod.Put, null );
+                    HttpMethod.Put, null);
             });
 
             services.AddSwaggerGen(c =>
@@ -152,9 +152,9 @@ namespace KNU.IT.DBMSWebApi
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "SVC Portal API Doc. V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "KNU IT DBMS API Doc. V1");
 
-                c.DocumentTitle = "This swagger doc describes methods in SB.SVC.Portal";
+                c.DocumentTitle = "This swagger doc describes methods in KNU.IT.DBMS";
                 c.DocExpansion(DocExpansion.None);
             });
 

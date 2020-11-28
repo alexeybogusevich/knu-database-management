@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using KNU.IT.DBMSWebApi.Models.ExceptionModels;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using KNU.IT.DBMSWebApi.Models.ExceptionModels;
 
 namespace KNU.IT.DBMSWebApi.Middleware
 {

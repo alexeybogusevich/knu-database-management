@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace KNU.IT.DbServices.Models.SettingModels
+﻿namespace KNU.IT.DbServices.Models.SettingModels
 {
     public class MongoDatabaseSettings : IMongoDatabaseSettings
     {

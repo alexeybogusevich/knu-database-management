@@ -1,9 +1,6 @@
 ﻿using KNU.IT.DbManager.Connections;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace KNU.IT.DBMSTests
 {

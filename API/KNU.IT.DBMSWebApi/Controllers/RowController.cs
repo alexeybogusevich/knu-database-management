@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using KNU.IT.DbManager.Models;
+﻿using KNU.IT.DbManager.Models;
 using KNU.IT.DBMSWebApi.Constants;
 using KNU.IT.DbServices.Services.RowService;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace KNU.IT.DBMSWebApi.Controllers
 {
