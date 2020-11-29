@@ -6,6 +6,7 @@ using MongoDB.Driver;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace KNU.IT.DbServices.Services.TableService
@@ -50,6 +51,26 @@ namespace KNU.IT.DbServices.Services.TableService
         public async Task DeleteAsync(Guid id)
         {
             await tables.DeleteOneAsync(db => db.Id.Equals(id));
+        }
+
+        public bool Validate(Table table)
+        {
+            var columns = JsonConvert.DeserializeObject<Dictionary<string, string>>(table.Schema);
+
+            var allKnownTypes = AppDomain.CurrentDomain
+                    .GetAssemblies()
+                    .SelectMany(x => x.GetTypes());
+
+            foreach (var column in columns)
+            {
+                var typeMatch = allKnownTypes.FirstOrDefault(t => t.Name.Equals(column.Value));
+                if (typeMatch == null)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

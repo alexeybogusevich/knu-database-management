@@ -1,9 +1,11 @@
 ﻿using KNU.IT.DbManager.Connections;
 using KNU.IT.DbManager.Models;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace KNU.IT.DbServices.Services.TableService
@@ -49,6 +51,26 @@ namespace KNU.IT.DbServices.Services.TableService
             var table = await GetAsync(id);
             context.Tables.Remove(table);
             await context.SaveChangesAsync();
+        }
+
+        public bool Validate(Table table)
+        {
+            var columns = JsonConvert.DeserializeObject<Dictionary<string, string>>(table.Schema);
+
+            var allKnownTypes = AppDomain.CurrentDomain
+                    .GetAssemblies()
+                    .SelectMany(x => x.GetTypes());
+
+            foreach (var column in columns)
+            {
+                var typeMatch = allKnownTypes.FirstOrDefault(t => t.Name.Equals(column.Value));
+                if (typeMatch == null)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

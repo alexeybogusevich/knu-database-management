@@ -1,6 +1,7 @@
 ﻿using KNU.IT.DbManager.Models;
 using KNU.IT.DBMSWebApi.Constants;
 using KNU.IT.DbServices.Converters;
+using KNU.IT.DbServices.Models;
 using KNU.IT.DbServices.Services.RowService;
 using KNU.IT.DbServices.Services.TableService;
 using Microsoft.AspNetCore.Mvc;
@@ -56,30 +57,34 @@ namespace KNU.IT.DBMSWebApi.Controllers
         // POST: api/table
         [HttpPost(Name = RouteNames.TableCreate)]
         [ProducesResponseType(200)]
-        public async Task<HATEOASResult> CreateAsync([FromBody] Table table)
+        public async Task<ActionResult<TableResponse>> CreateAsync([FromBody] Table table)
         {
+            if(!tableService.Validate(table))
+            {
+                return BadRequest();
+            }
             var createdTable = await tableService.CreateAsync(table);
             var tableResponse = TableConverter.GetTableResponse(createdTable);
-            return this.HATEOASResult(tableResponse, (t) => Ok(t));
+            return Ok(tableResponse);
         }
 
         // POST: api/table
         [HttpPut(Name = RouteNames.TableUpdate)]
         [ProducesResponseType(200)]
-        public async Task<HATEOASResult> UpdateAsync([FromBody] Table table)
+        public async Task<ActionResult<TableResponse>> UpdateAsync([FromBody] Table table)
         {
             var updatedTable = await tableService.UpdateAsync(table);
             var tableResponse = TableConverter.GetTableResponse(updatedTable);
-            return this.HATEOASResult(updatedTable, (t) => Ok(t));
+            return Ok(tableResponse);
         }
 
         // POST: api/table
         [HttpDelete("{id}", Name = RouteNames.TableDelete)]
         [ProducesResponseType(200)]
-        public async Task<HATEOASResult> GetRowsAsync(Guid id)
+        public async Task<ActionResult> GetRowsAsync(Guid id)
         {
             await tableService.DeleteAsync(id);
-            return this.HATEOASResult(null, (t) => Ok(t));
+            return Ok();
         }
     }
 }

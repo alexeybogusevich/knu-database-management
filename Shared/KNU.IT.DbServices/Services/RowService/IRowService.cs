@@ -13,5 +13,6 @@ namespace KNU.IT.DbServices.Services.RowService
         Task DeleteAsync(Guid id);
         Task<List<Row>> GetAllAsync(Guid tableId);
         Task<List<Row>> SearchByKeywordAsync(Guid tableId, string keyword, string column);
+        Task<bool> ValidateAsync(Row row);
     }
 }

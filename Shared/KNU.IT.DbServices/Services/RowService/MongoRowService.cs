@@ -86,5 +86,29 @@ namespace KNU.IT.DbServices.Services.RowService
         {
             await rows.DeleteOneAsync(db => db.Id.Equals(id));
         }
+
+        public async Task<bool> ValidateAsync(Row row)
+        {
+            var table = await tableService.GetAsync(row.TableId);
+
+            var tableSchema = JsonConvert.DeserializeObject<Dictionary<string, string>>(table.Schema);
+            var rowColumns = JsonConvert.DeserializeObject<Dictionary<string, string>>(row.Content);
+
+            foreach (var column in rowColumns)
+            {
+                var columnName = column.Key;
+                var columnValue = column.Value;
+                var columnType = Type.GetType(column.Value);
+
+                var schemaType = tableSchema[column.Key].GetType();
+
+                if (!schemaType.IsAssignableFrom(columnType))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 }

@@ -12,5 +12,6 @@ namespace KNU.IT.DbServices.Services.TableService
         Task<Table> CreateAsync(Table table);
         Task<Table> UpdateAsync(Table table);
         Task DeleteAsync(Guid id);
+        bool Validate(Table table);
     }
 }

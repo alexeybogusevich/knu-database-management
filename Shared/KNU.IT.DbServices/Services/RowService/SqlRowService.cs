@@ -88,5 +88,47 @@ namespace KNU.IT.DbServices.Services.RowService
                 })
                 .ToList();
         }
+
+        public async Task<bool> ValidateAsync(Row row)
+        {
+            var table = await context.Tables.FirstOrDefaultAsync(t => t.Id.Equals(row.TableId));
+
+            var tableSchema = JsonConvert.DeserializeObject<Dictionary<string, string>>(table.Schema);
+            var rowColumns = JsonConvert.DeserializeObject<Dictionary<string, string>>(row.Content);
+
+            foreach(var column in rowColumns)
+            {
+                var columnName = column.Key;
+                var columnValue = column.Value;
+
+                var schemaType = AppDomain.CurrentDomain
+                    .GetAssemblies()
+                    .SelectMany(x => x.GetTypes())
+                    .FirstOrDefault(t => t.Name.Equals(tableSchema[columnName]));
+
+                try
+                {
+                    var unboxedObject = Convert.ChangeType(columnValue, schemaType);
+                }
+                catch(InvalidCastException ex)
+                {
+                    return false;
+                }
+                catch(FormatException ex)
+                {
+                    return false;
+                }
+                catch(OverflowException ex)
+                {
+                    return false;
+                }
+                catch(ArgumentNullException ex)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 }
