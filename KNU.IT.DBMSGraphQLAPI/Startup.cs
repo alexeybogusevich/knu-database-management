@@ -18,6 +18,7 @@ using System;
 using GraphQL.Server;
 using KNU.IT.DBMSGraphQLAPI.Middleware;
 using GraphQL.Server.Ui.GraphiQL;
+using KNU.IT.DBMSGraphQLAPI.SignalR.Hubs;
 
 namespace KNU.IT.DBMSGraphQLAPI
 {
@@ -49,6 +50,10 @@ namespace KNU.IT.DBMSGraphQLAPI
                 .AddSystemTextJson()
                 .AddWebSockets()
                 .AddDataLoader();
+
+            services.AddSignalR();
+
+            services.AddScoped<IDatabaseHub, DatabaseHub>();
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -107,6 +112,7 @@ namespace KNU.IT.DBMSGraphQLAPI
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
+                endpoints.MapHub<DatabaseHub>("/databasehub");
             });
 
             app.UseSpa(spa =>

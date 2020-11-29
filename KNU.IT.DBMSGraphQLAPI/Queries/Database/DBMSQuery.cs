@@ -1,6 +1,7 @@
 ﻿using GraphQL;
 using GraphQL.Types;
 using KNU.IT.DBMSGraphQLAPI.Models;
+using KNU.IT.DBMSGraphQLAPI.SignalR.Hubs;
 using KNU.IT.DbServices.Services.DatabaseService;
 using KNU.IT.DbServices.Services.RowService;
 using KNU.IT.DbServices.Services.TableService;
@@ -11,7 +12,8 @@ namespace KNU.IT.DBMSGraphQLAPI.Queries.Database
 {
     public class DBMSQuery : ObjectGraphType
     {
-        public DBMSQuery(IDatabaseService databaseService, ITableService tableService, IRowService rowService)
+        public DBMSQuery(IDatabaseService databaseService, ITableService tableService, IRowService rowService,
+            IDatabaseHub databaseHub)
         {
             Name = nameof(DBMSQuery);
 
@@ -23,6 +25,27 @@ namespace KNU.IT.DBMSGraphQLAPI.Queries.Database
                 resolve: context =>
                 {
                     return databaseService.GetAllAsync().Result;
+                });
+
+            Field<DatabaseType>("create_database", "creates a database",
+                arguments: new QueryArguments(new List<QueryArgument>
+                {
+                        new QueryArgument<StringGraphType>
+                        {
+                            Name = "name"
+                        }
+                }),
+                resolve: context =>
+                {
+                    var name = context.GetArgument<string>("name");
+                    var database = new DbManager.Models.Database
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = name
+                    };
+                    var createdDatabase = databaseService.CreateAsync(database).Result;
+                    databaseHub.SendMessageAsync("database created");
+                    return createdDatabase;
                 });
 
             Field<ListGraphType<TableType>>("tables", "returns database tables",
