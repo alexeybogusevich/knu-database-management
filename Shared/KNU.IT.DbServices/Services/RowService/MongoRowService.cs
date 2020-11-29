@@ -26,51 +26,23 @@ namespace KNU.IT.DbServices.Services.RowService
             rows = database.GetCollection<Row>(settings.RowsCollectionName);
         }
 
-        public async Task<RowResponse> GetAsync(Guid id)
-        {
-            var row = await rows.Find(db => db.Id == id).FirstOrDefaultAsync();
-            var table = await tableService.GetAsync(row.TableId);
-            return new RowResponse
-            {
-                Id = row.Id,
-                TableId = row.TableId,
-                TableName = table?.Name,
-                Content = JsonConvert.DeserializeObject<Dictionary<string, string>>(row.Content)
-            };
-        }
-
-        public async Task<Row> GetRecordAsync(Guid id)
+        public async Task<Row> GetAsync(Guid id)
         {
             return await rows.Find(db => db.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<List<RowResponse>> GetRowsAsync(Guid tableId)
+        public async Task<List<Row>> GetAllAsync(Guid tableId)
         {
-            var result = new List<RowResponse>();
-            var mongoRows = await rows.Find(r => r.TableId.Equals(tableId)).ToListAsync();
-            var table = await tableService.GetAsync(tableId);
-            foreach (var row in mongoRows)
-            {
-                result.Add(
-                    new RowResponse
-                    {
-                        Id = row.Id,
-                        TableId = row.TableId,
-                        TableName = table?.Name,
-                        Content = JsonConvert.DeserializeObject<Dictionary<string, string>>(row.Content)
-                    });
-            }
-
-            return result;
+            return await rows.Find(r => r.TableId.Equals(tableId)).ToListAsync();
         }
 
-        public async Task<List<RowResponse>> SearchByKeywordAsync(Guid tableId, string keyword, string column)
+        public async Task<List<Row>> SearchByKeywordAsync(Guid tableId, string keyword, string column)
         {
             var mongoRows = await rows.Find(r => r.TableId.Equals(tableId)).ToListAsync();
 
             var comparer = StringComparison.OrdinalIgnoreCase;
 
-            var table = await tableService.GetRecordAsync(tableId);
+            var table = await tableService.GetAsync(tableId);
 
             var originalColumnName = JsonConvert.DeserializeObject<Dictionary<string, string>>(table?.Schema)
                 .FirstOrDefault(x => String.Equals(x.Key, column, comparer))
@@ -85,12 +57,16 @@ namespace KNU.IT.DbServices.Services.RowService
                     {
                         Id = row.Id,
                         TableId = row.TableId,
-                        TableName = table?.Name,
                         Content = JsonConvert.DeserializeObject<Dictionary<string, string>>(row.Content)
                     });
             };
 
-            return rowDTOs.Where(r => r.Content[originalColumnName].IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
+            var filteredRows = rowDTOs
+                .Where(r => r.Content[originalColumnName].IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0)
+                .Select(r => r.Id)
+                .ToList();
+
+            return mongoRows.Where(r => filteredRows.Contains(r.Id)).ToList();
         }
 
         public async Task<Row> UpdateAsync(Row row)

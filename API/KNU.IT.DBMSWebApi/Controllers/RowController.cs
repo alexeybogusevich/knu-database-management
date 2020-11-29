@@ -1,8 +1,10 @@
 ﻿using KNU.IT.DbManager.Models;
 using KNU.IT.DBMSWebApi.Constants;
+using KNU.IT.DbServices.Converters;
 using KNU.IT.DbServices.Services.RowService;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace KNU.IT.DBMSWebApi.Controllers
@@ -24,7 +26,8 @@ namespace KNU.IT.DBMSWebApi.Controllers
         public async Task<HATEOASResult> GetAsync(Guid id)
         {
             var row = await rowService.GetAsync(id);
-            return this.HATEOASResult(row, (r) => Ok(r));
+            var rowResponse = RowConverter.GetRowResponse(row);
+            return this.HATEOASResult(rowResponse, (r) => Ok(r));
         }
 
         // GET: api/row
@@ -32,8 +35,9 @@ namespace KNU.IT.DBMSWebApi.Controllers
         [ProducesResponseType(typeof(Row), 200)]
         public async Task<HATEOASResult> GetByTableAsync(Guid tableId)
         {
-            var rows = await rowService.GetRowsAsync(tableId);
-            return this.HATEOASResult(rows, (r) => Ok(r));
+            var rows = await rowService.GetAllAsync(tableId);
+            var rowsResponse = rows.Select(r => RowConverter.GetRowResponse(r)).ToList();
+            return this.HATEOASResult(rowsResponse, (r) => Ok(r));
         }
 
         // POST: api/row
@@ -42,7 +46,8 @@ namespace KNU.IT.DBMSWebApi.Controllers
         public async Task<HATEOASResult> UpdateAsync([FromBody] Row row)
         {
             var updatedRow = await rowService.UpdateAsync(row);
-            return this.HATEOASResult(updatedRow, (r) => Ok(r));
+            var rowResponse = RowConverter.GetRowResponse(updatedRow);
+            return this.HATEOASResult(rowResponse, (r) => Ok(r));
         }
 
         // POST: api/row
@@ -51,7 +56,8 @@ namespace KNU.IT.DBMSWebApi.Controllers
         public async Task<HATEOASResult> CreateAsync([FromBody] Row row)
         {
             var createdRow = await rowService.CreateAsync(row);
-            return this.HATEOASResult(createdRow, (r) => Ok(r));
+            var rowResponse = RowConverter.GetRowResponse(createdRow);
+            return this.HATEOASResult(rowResponse, (r) => Ok(r));
         }
 
         // POST: api/row

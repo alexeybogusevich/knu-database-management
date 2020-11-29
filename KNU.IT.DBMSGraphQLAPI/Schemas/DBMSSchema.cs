@@ -9,7 +9,7 @@ namespace KNU.IT.DBMSGraphQLAPI.Schemas
     {
         public DBMSSchema(IServiceProvider provider) : base(provider)
         {
-            Query = provider.GetRequiredService<DatabaseQuery>();
+            Query = provider.GetRequiredService<DBMSQuery>();
         }
     }
 }

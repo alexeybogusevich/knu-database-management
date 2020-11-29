@@ -1,9 +1,11 @@
 ﻿using KNU.IT.DbManager.Models;
 using KNU.IT.DBMSWebApi.Constants;
+using KNU.IT.DbServices.Converters;
 using KNU.IT.DbServices.Services.RowService;
 using KNU.IT.DbServices.Services.TableService;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace KNU.IT.DBMSWebApi.Controllers
@@ -27,7 +29,8 @@ namespace KNU.IT.DBMSWebApi.Controllers
         public async Task<HATEOASResult> GetAsync(Guid id)
         {
             var table = await tableService.GetAsync(id);
-            return this.HATEOASResult(table, (t) => Ok(t));
+            var tableResponse = TableConverter.GetTableResponse(table);
+            return this.HATEOASResult(tableResponse, (t) => Ok(t));
         }
 
         // GET: api/table
@@ -36,8 +39,8 @@ namespace KNU.IT.DBMSWebApi.Controllers
         public async Task<HATEOASResult> GetByDatabaseAsync(Guid databaseId)
         {
             var tables = await tableService.GetAllAsync(databaseId);
-            var result = this.HATEOASResult(tables, (t) => Ok(t));
-            return this.HATEOASResult(tables, (t) => Ok(t));
+            var tablesResponse = tables.Select(t => TableConverter.GetTableResponse(t)).ToList();
+            return this.HATEOASResult(tablesResponse, (t) => Ok(t));
         }
 
         // GET: api/table
@@ -46,7 +49,8 @@ namespace KNU.IT.DBMSWebApi.Controllers
         public async Task<HATEOASResult> SearchAsync(Guid tableId, string keyword, string column)
         {
             var rows = await rowService.SearchByKeywordAsync(tableId, keyword, column);
-            return this.HATEOASResult(rows, (r) => Ok(r));
+            var rowsResponse = rows.Select(r => RowConverter.GetRowResponse(r)).ToList();
+            return this.HATEOASResult(rowsResponse, (r) => Ok(r));
         }
 
         // POST: api/table
@@ -55,7 +59,8 @@ namespace KNU.IT.DBMSWebApi.Controllers
         public async Task<HATEOASResult> CreateAsync([FromBody] Table table)
         {
             var createdTable = await tableService.CreateAsync(table);
-            return this.HATEOASResult(createdTable, (t) => Ok(t));
+            var tableResponse = TableConverter.GetTableResponse(createdTable);
+            return this.HATEOASResult(tableResponse, (t) => Ok(t));
         }
 
         // POST: api/table
@@ -64,6 +69,7 @@ namespace KNU.IT.DBMSWebApi.Controllers
         public async Task<HATEOASResult> UpdateAsync([FromBody] Table table)
         {
             var updatedTable = await tableService.UpdateAsync(table);
+            var tableResponse = TableConverter.GetTableResponse(updatedTable);
             return this.HATEOASResult(updatedTable, (t) => Ok(t));
         }
 

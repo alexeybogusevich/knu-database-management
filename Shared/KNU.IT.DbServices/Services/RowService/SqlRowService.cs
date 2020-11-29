@@ -19,28 +19,16 @@ namespace KNU.IT.DbServices.Services.RowService
             this.context = context;
         }
 
-        public async Task<Row> GetRecordAsync(Guid id)
+        public async Task<Row> GetAsync(Guid id)
         {
             return await context.Rows.FirstOrDefaultAsync(r => r.Id.Equals(id));
         }
 
-        public async Task<RowResponse> GetAsync(Guid id)
-        {
-            var dbRow = await GetRecordAsync(id);
-            return new RowResponse { TableId = dbRow.TableId, Content = JsonConvert.DeserializeObject<Dictionary<string, string>>(dbRow.Content) };
-        }
-
-        public async Task<List<RowResponse>> GetRowsAsync(Guid tableId)
+        public async Task<List<Row>> GetAllAsync(Guid tableId)
         {
             return await context.Rows
                 .Where(r => r.TableId.Equals(tableId))
-                .Select(r => new RowResponse
-                {
-                    Id = r.Id,
-                    TableId = r.TableId,
-                    TableName = r.Table.Name,
-                    Content = JsonConvert.DeserializeObject<Dictionary<string, string>>(r.Content)
-                })
+                .AsNoTracking()
                 .ToListAsync();
         }
 
@@ -60,12 +48,12 @@ namespace KNU.IT.DbServices.Services.RowService
 
         public async Task DeleteAsync(Guid id)
         {
-            var row = await GetRecordAsync(id);
+            var row = await GetAsync(id);
             context.Rows.Remove(row);
             await context.SaveChangesAsync();
         }
 
-        public async Task<List<RowResponse>> SearchByKeywordAsync(Guid tableId, string keyword, string column)
+        public async Task<List<Row>> SearchByKeywordAsync(Guid tableId, string keyword, string column)
         {
             var rows = await context.Rows
                 .Include(r => r.Table)
@@ -89,10 +77,15 @@ namespace KNU.IT.DbServices.Services.RowService
                 {
                     Id = r.Id,
                     TableId = r.TableId,
-                    TableName = r.Table.Name,
                     Content = JsonConvert.DeserializeObject<Dictionary<string, string>>(r.Content)
                 })
                 .Where(r => r.Content[originalColumnName].IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0)
+                .Select(r => new Row
+                {
+                    Id = r.Id,
+                    TableId = r.TableId,
+                    Content = JsonConvert.SerializeObject(r.Content)
+                })
                 .ToList();
         }
     }

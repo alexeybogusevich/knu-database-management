@@ -16,6 +16,8 @@ using KNU.IT.DBMSGraphQLAPI.Schemas;
 using GraphQL.Server.Ui.Playground;
 using System;
 using GraphQL.Server;
+using KNU.IT.DBMSGraphQLAPI.Middleware;
+using GraphQL.Server.Ui.GraphiQL;
 
 namespace KNU.IT.DBMSGraphQLAPI
 {
@@ -43,7 +45,10 @@ namespace KNU.IT.DBMSGraphQLAPI
             services.AddScoped<DBMSSchema>();
 
             services.AddGraphQL(x => x.EnableMetrics = true)
-                .AddGraphTypes(ServiceLifetime.Scoped);
+                .AddGraphTypes(ServiceLifetime.Scoped)
+                .AddSystemTextJson()
+                .AddWebSockets()
+                .AddDataLoader();
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -63,6 +68,7 @@ namespace KNU.IT.DBMSGraphQLAPI
         {
             app.UseGraphQL<DBMSSchema>("/graphql");
             app.UseGraphQLPlayground(new GraphQLPlaygroundOptions());
+            app.UseGraphiQLServer(new GraphiQLOptions());
 
             if (env.IsDevelopment())
             {
@@ -93,6 +99,8 @@ namespace KNU.IT.DBMSGraphQLAPI
             }
 
             app.UseRouting();
+
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

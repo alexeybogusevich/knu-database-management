@@ -1,5 +1,6 @@
 ﻿using KNU.IT.DbManager.Connections;
 using KNU.IT.DbManager.Models;
+using KNU.IT.DbServices.Converters;
 using KNU.IT.DbServices.Services.RowService;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
@@ -68,11 +69,12 @@ namespace KNU.IT.DBMSTests.ServiceTests
 
             // Act
             var result = await rowService.SearchByKeywordAsync(table.Id, searchKeyword, searchColumn);
+            var resultResponse = result.Select(r => RowConverter.GetRowResponse(r)).ToList();
 
             // Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(1, result.Count);
-            Assert.AreEqual(row2Name, result.FirstOrDefault().Content["name"]);
+            Assert.IsNotNull(resultResponse);
+            Assert.AreEqual(1, resultResponse.Count);
+            Assert.AreEqual(row2Name, resultResponse.FirstOrDefault().Content["name"]);
         }
     }
 }

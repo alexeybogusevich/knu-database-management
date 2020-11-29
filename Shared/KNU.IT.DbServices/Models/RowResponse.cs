@@ -7,7 +7,6 @@ namespace KNU.IT.DbServices.Models
     {
         public Guid Id { get; set; }
         public Guid TableId { get; set; }
-        public string TableName { get; set; }
         public Dictionary<string, string> Content { get; set; }
     }
 }
