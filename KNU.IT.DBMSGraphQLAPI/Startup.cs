@@ -12,6 +12,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
+using KNU.IT.DBMSGraphQLAPI.Schemas;
+using GraphQL.Server.Ui.Playground;
+using System;
+using GraphQL.Server;
 
 namespace KNU.IT.DBMSGraphQLAPI
 {
@@ -36,6 +40,11 @@ namespace KNU.IT.DBMSGraphQLAPI
             services.AddScoped<ITableService, SqlTableService>();
             services.AddScoped<IRowService, SqlRowService>();
 
+            services.AddScoped<DBMSSchema>();
+
+            services.AddGraphQL(x => x.EnableMetrics = true)
+                .AddGraphTypes(ServiceLifetime.Scoped);
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -52,6 +61,9 @@ namespace KNU.IT.DBMSGraphQLAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseGraphQL<DBMSSchema>("/graphql");
+            app.UseGraphQLPlayground(new GraphQLPlaygroundOptions());
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
