@@ -11,6 +11,7 @@ namespace KNU.IT.DbServices.Converters
         {
             return new RowResponse
             {
+                Id = row.Id,
                 TableId = row.TableId,
                 Content = JsonConvert.DeserializeObject<Dictionary<string, string>>(row.Content)
             };

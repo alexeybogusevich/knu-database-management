@@ -39,28 +39,28 @@ namespace KNU.IT.DBMSWebApi.Controllers
         // POST: api/database
         [HttpPost(Name = RouteNames.DatabaseCreate)]
         [ProducesResponseType(200)]
-        public async Task<HATEOASResult> CreateAsync([FromBody] Database database)
+        public async Task<ActionResult<Database>> CreateAsync([FromBody] Database database)
         {
             var createdDatabase = await databaseService.CreateAsync(database);
-            return this.HATEOASResult(createdDatabase, (d) => Ok(d));
+            return Ok(createdDatabase);
         }
 
         // POST: api/database
         [HttpPut(Name = RouteNames.DatabaseUpdate)]
         [ProducesResponseType(200)]
-        public async Task<HATEOASResult> UpdateAsync([FromBody] Database database)
+        public async Task<ActionResult<Database>> UpdateAsync([FromBody] Database database)
         {
             var updatedDatabase = await databaseService.CreateAsync(database);
-            return this.HATEOASResult(updatedDatabase, (d) => Ok(d));
+            return Ok(updatedDatabase);
         }
 
         // POST: api/database
         [HttpDelete("{id}", Name = RouteNames.DatabaseDelete)]
         [ProducesResponseType(200)]
-        public async Task<HATEOASResult> DeleteAsync([FromQuery] Guid id)
+        public async Task<IActionResult> DeleteAsync([FromQuery] Guid id)
         {
             await databaseService.DeleteAsync(id);
-            return this.HATEOASResult(null, (d) => Ok());
+            return Ok();
         }
     }
 }
