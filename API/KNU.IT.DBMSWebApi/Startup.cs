@@ -37,7 +37,7 @@ namespace KNU.IT.DBMSWebApi
             services.AddDbContext<AzureSqlDbContext>(options
                 => options.UseSqlServer(Configuration.GetConnectionString(ConfigurationConstants.DatabaseConntectionString)));
 
-            services.AddScoped<IDatabaseService, SqlDatabaseService>();
+            services.AddScoped<IDatabaseService, MongoDatabaseService>();
             services.AddScoped<ITableService, SqlTableService>();
             services.AddScoped<IRowService, SqlRowService>();
 
